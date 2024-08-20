@@ -103,7 +103,7 @@ export class UsersService {
     }
   }
 
-  async findOneById(id: number): Promise<GetUserResponse> {
+  async getDetails(id: number): Promise<GetUserResponse> {
     const user = await this.usersRepository.findOneBy({ id });
     if (CommonUtils.isNullOrUndefined(user)) {
       return new GetUserResponse({
@@ -122,6 +122,10 @@ export class UsersService {
       }),
       account: userInfo,
     });
+  }
+
+  async findOneById(id: number): Promise<User> {
+    return this.usersRepository.findOneBy({ id });
   }
 
   async findOneByEmail(email: string): Promise<User> {
