@@ -14,6 +14,34 @@ export class ProductsService {
     @InjectRepository(Product) private readonly productsRepository: Repository<Product>,
     @InjectRepository(Category) private readonly categoriesRepository: Repository<Category>,
   ) { }
+  async searchProducts(query: string): Promise<Product[]> {
+    return this.productsRepository.createQueryBuilder('product')
+      .where('product.name LIKE :query', { query: `%${query}%` })
+      .orWhere('product.description LIKE :query', { query: `%${query}%` })
+      .getMany();
+  }
+
+  async filterProducts(categoryId?: number, minPrice?: number, maxPrice?: number, minRating?: number): Promise<Product[]> {
+    let queryBuilder = this.productsRepository.createQueryBuilder('product');
+
+    if (categoryId) {
+      queryBuilder = queryBuilder.andWhere('product.category.id = :categoryId', { categoryId });
+    }
+
+    if (minPrice) {
+      queryBuilder = queryBuilder.andWhere('product.price >= :minPrice', { minPrice });
+    }
+
+    if (maxPrice) {
+      queryBuilder = queryBuilder.andWhere('product.price <= :maxPrice', { maxPrice });
+    }
+
+    if (minRating) {
+      queryBuilder = queryBuilder.andWhere('product.rating >= :minRating', { minRating });
+    }
+
+    return queryBuilder.getMany();
+  }
   async createProduct(createProductDto: CreateProductDto): Promise<Product> {
     const { categoryId, ...rest } = createProductDto;
     const category = await this.categoriesRepository.findOneBy({

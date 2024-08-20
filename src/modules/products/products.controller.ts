@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -8,6 +8,21 @@ import { UpdateCategory } from './dto/update-category.dto';
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) { }
+
+  @Get('search')
+  searchProducts(@Query('query') query: string) {
+    return this.productsService.searchProducts(query);
+  }
+
+  @Get('filter')
+  filterProducts(
+    @Query('categoryId') categoryId?: number,
+    @Query('minPrice') minPrice?: number,
+    @Query('maxPrice') maxPrice?: number,
+    @Query('minRating') minRating?: number,
+  ) {
+    return this.productsService.filterProducts(categoryId, minPrice, maxPrice, minRating);
+  }
 
   @Post()
   createProduct(@Body() createProductDto: CreateProductDto) {

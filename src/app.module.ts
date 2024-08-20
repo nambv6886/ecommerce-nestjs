@@ -13,6 +13,8 @@ import { PaymentsModule } from './modules/payments/payments.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { CartModule } from './modules/cart/cart.module';
 import { ReviewsModule } from './modules/reviews/reviews.module';
+import { WishlistModule } from './modules/wishlist/wishlist.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 
 @Module({
   imports: [
@@ -32,6 +34,8 @@ import { ReviewsModule } from './modules/reviews/reviews.module';
     PaymentsModule,
     CartModule,
     ReviewsModule,
+    WishlistModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [
