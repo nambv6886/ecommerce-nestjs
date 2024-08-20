@@ -2,12 +2,20 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { CommonUtils } from '../common/utils/common.utils';
-import { ResponseMessage } from '../models/interfaces/response.message.model';
-import { ResponseStatus } from '../models/interfaces/response.status.model';
-import { Resource } from '../app.resource';
+import { CommonUtils } from '../../common/utils/common.utils';
+import { ResponseMessage } from '../../models/interfaces/response.message.model';
+import { ResponseStatus } from '../../models/interfaces/response.status.model';
+import { Resource } from '../../app.resource';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDto, CreateUserResponse, GetUserListResponse, GetUserResponse, UpdateUserDto, UserInfo } from './dto/user.dto';
+import {
+  CreateUserDto,
+  CreateUserResponse,
+  GetUserListResponse,
+  GetUserResponse,
+  UpdateUserDto,
+  UserInfo,
+  UpdateUserResponse,
+} from './dto/user.dto';
 import { GetListRequest } from 'src/models/pagination/pagination.model';
 
 @Injectable()
@@ -116,8 +124,32 @@ export class UsersService {
     });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async findOneByEmail(email: string): Promise<User> {
+    return await this.usersRepository.findOneBy({ email });
+  }
+
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<UpdateUserResponse> {
+    const user = await this.usersRepository.findOneBy({ id });
+    if (CommonUtils.isNullOrUndefined(user)) {
+      return new UpdateUserResponse({
+        responseMessage: new ResponseMessage({
+          status: ResponseStatus.Fail,
+          messageCode: Resource.NOT_FOUND,
+        })
+      })
+    }
+
+    const { password, profile } = updateUserDto;
+    const hashedPassword = password ? await bcrypt.hash(password, 10) : undefined;
+    user.password = hashedPassword;
+    user.profile = profile;
+    const userUpdated = await this.usersRepository.update({ id }, user);
+    return new UpdateUserResponse({
+      responseMessage: new ResponseMessage({
+        status: ResponseStatus.Success,
+        messageCode: Resource.SUCCESS,
+      }),
+    })
   }
 
   remove(id: number) {

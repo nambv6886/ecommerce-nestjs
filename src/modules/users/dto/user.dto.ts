@@ -1,11 +1,22 @@
 import { IsEmail, IsNotEmpty, IsOptional, IsString, Matches, MinLength } from 'class-validator'
-import { Resource } from '../../app.resource';
-import { EMAIL_REGEX } from '../../common/constants/common';
-import { IResponse } from '../../models/interfaces/i-response';
+import { Resource } from '../../../app.resource';
+import { EMAIL_REGEX } from '../../../common/constants/common';
+import { IResponse } from '../../../models/interfaces/i-response';
 import { ResponseMessage } from 'src/models/interfaces/response.message.model';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../entities/user.entity';
 import { IPagedResponse } from 'src/models/interfaces/i-paged-response';
+
+export class LoginRequest {
+  @ApiProperty()
+  @IsNotEmpty({ message: Resource.EMAIL_IS_REQUIRED })
+  @Matches(EMAIL_REGEX, { message: Resource.EMAIL_IS_INVALID })
+  email: string;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: Resource.PASSWORD_IS_REQUIRED })
+  password: string;
+}
 
 export class CreateUserDto {
   @ApiProperty()
@@ -68,6 +79,16 @@ export class GetUserResponse implements IResponse {
   @ApiProperty()
   account: UserInfo;
 
+  constructor(fields?: Partial<GetUserResponse>) {
+    if (fields) {
+      Object.assign(this, fields);
+    }
+  }
+}
+
+export class UpdateUserResponse implements IResponse {
+  @ApiProperty()
+  responseMessage: ResponseMessage;
   constructor(fields?: Partial<GetUserResponse>) {
     if (fields) {
       Object.assign(this, fields);

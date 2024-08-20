@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IPagedRequest } from "../interfaces/i-paged-request";
 import { IsNotEmpty, IsNumber } from "class-validator";
 import { Resource } from "src/app.resource";
-import { User } from "src/users/entities/user.entity";
+import { User } from "src/modules/users/entities/user.entity";
 
 export class GetListRequest implements IPagedRequest {
   @ApiProperty()
