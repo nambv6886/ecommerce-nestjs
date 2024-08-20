@@ -8,6 +8,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './modules/users/entities/user.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { ProductsModule } from './modules/products/products.module';
+import { ProductsModule } from './modules/products/products.module';
 
 @Module({
   imports: [
@@ -22,6 +24,7 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [
