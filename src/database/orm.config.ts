@@ -7,6 +7,7 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
   imports: [ConfigModule],
   inject: [ConfigService],
   useFactory: async (configService: ConfigService): Promise<TypeOrmModuleOptions> => {
+    console.log('rootPath:', rootPath)
     return {
       type: 'mysql',
       host: configService.get('MYSQL_HOST'),

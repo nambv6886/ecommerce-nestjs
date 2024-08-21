@@ -13,7 +13,7 @@ export class PaymentsService {
   constructor(
     @InjectRepository(Order)
     private ordersRepository: Repository<Order>,
-    private usersService: UsersService,
+    // private usersService: UsersService,
   ) {
     this.stripe = new Stripe('YOUR_STRIPE_SECRET_KEY', {
       // apiVersion: '2022-11-15',

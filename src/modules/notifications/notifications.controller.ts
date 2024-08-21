@@ -8,13 +8,13 @@ export class NotificationsController {
 
   @Post()
   createNotification(@Req() req: Request, @Body('message') message: string) {
-    const userId = req.user.id;
+    const userId = 1;
     return this.notificationsService.createInAppNotification(userId, message);
   }
 
   @Get()
   getNotifications(@Req() req: Request) {
-    const userId = req.user.id;
+    const userId = 1;
     return this.notificationsService.getNotifications(userId);
   }
 

@@ -16,8 +16,8 @@ const typeOrmConfig: DataSourceOptions = {
   // migrations: ['src/**/migrations/*{.ts,.js}'],
   // entities: ['src/**/**/entities/*.entity{.ts,.js}'],
   // migrationsTableName: 'migrations',
-  entities: ['dist/**/*.entity{.ts,.js}'],
-  migrations: ['src/migrations/**/*.ts'],
+  entities: ['./src/**/*.entity{.ts,.js}'],
+  migrations: ['./src/database/migrations/*.ts'],
   // autoLoadEntities: true,
   // migrations: [__dirname + '/../database/migrations/*{.ts,.js}'],
   // cli: {

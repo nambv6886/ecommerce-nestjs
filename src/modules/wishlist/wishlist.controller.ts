@@ -8,19 +8,19 @@ export class WishlistController {
 
   @Post(':productId')
   addToWishlist(@Req() req: Request, @Param('productId') productId: number) {
-    const userId = req.user.id;
+    const userId = 1;
     return this.wishlistService.addToWishlist(userId, productId);
   }
 
   @Delete(':productId')
   removeFromWishlist(@Req() req: Request, @Param('productId') productId: number) {
-    const userId = req.user.id;
+    const userId = 1;
     return this.wishlistService.removeFromWishlist(userId, productId);
   }
 
   @Get()
   viewWishlist(@Req() req: Request) {
-    const userId = req.user.id;
+    const userId = 1;
     return this.wishlistService.viewWishlist(userId);
   }
 }

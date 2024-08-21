@@ -10,19 +10,19 @@ export class ReviewsController {
 
   @Post(':productId')
   addReview(@Req() req: Request, @Param('productId') productId: number, @Body() createReviewDto: CreateReviewDto) {
-    const userId = req.user.id;
+    const userId = 1;
     return this.reviewsService.addReview(userId, productId, createReviewDto);
   }
 
   @Patch(':reviewId')
   updateReview(@Req() req: Request, @Param('reviewId') reviewId: number, @Body() updateReviewDto: UpdateReviewDto) {
-    const userId = req.user.id;
+    const userId = 1;
     return this.reviewsService.updateReview(userId, reviewId, updateReviewDto);
   }
 
   @Delete(':reviewId')
   deleteReview(@Req() req: Request, @Param('reviewId') reviewId: number) {
-    const userId = req.user.id;
+    const userId = 1;
     return this.reviewsService.deleteReview(userId, reviewId);
   }
 
