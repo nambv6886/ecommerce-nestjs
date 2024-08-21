@@ -15,15 +15,11 @@ import { CartModule } from './modules/cart/cart.module';
 import { ReviewsModule } from './modules/reviews/reviews.module';
 import { WishlistModule } from './modules/wishlist/wishlist.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
+import { typeOrmAsyncConfig } from './database/orm.config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'data.root',
-      entities: [User],
-      synchronize: true,
-    }),
+    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     UsersModule,
     AuthModule,
     ConfigModule.forRoot({
